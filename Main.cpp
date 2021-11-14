@@ -338,8 +338,8 @@ protected:
 	// ユーザメッセージレシーバの登録/解除
 	void setReceiver(bool enable) {
 		tTJSVariant mode     = enable ? (tTVInteger)(tjs_int)wrmRegister : (tTVInteger)(tjs_int)wrmUnregister;
-		tTJSVariant proc     = (tTVInteger)(tjs_int)receiver;
-		tTJSVariant userdata = (tTVInteger)(tjs_int)this;
+		tTJSVariant proc     = (tTVInteger)(tjs_intptr_t)receiver;
+		tTJSVariant userdata = (tTVInteger)(tjs_intptr_t)this;
 		tTJSVariant *p[] = {&mode, &proc, &userdata};
 		if (window->FuncCall(0, L"registerMessageReceiver", NULL, NULL, 4, p, window) != TJS_S_OK) {
 			TVPThrowExceptionMessage(L"can't regist user message receiver");
@@ -361,10 +361,10 @@ protected:
 		doneflag = false;
 		tTJSVariant krkrHwnd;
 		if (TJS_SUCCEEDED(window->PropGet(0, TJS_W("HWND"), NULL, &krkrHwnd, window))) {
-			hParent = ::FindWindowEx((HWND)(tjs_int)krkrHwnd, NULL, KRKRDISPWINDOWCLASS, NULL);
+			hParent = ::FindWindowEx((HWND)(tjs_intptr_t)krkrHwnd, NULL, KRKRDISPWINDOWCLASS, NULL);
             // KRKRDISPWINDOWCLASSが見つからない場合は吉里吉里Zなので自身をhParentとする 
             if (! hParent)
-              hParent = (HWND)(tjs_int)krkrHwnd;
+              hParent = (HWND)(tjs_intptr_t)krkrHwnd;
 			if (hParent) {
 				thread = (HANDLE)_beginthreadex(NULL, 0, threadFunc, this, 0, NULL);
 				if (thread) {
@@ -406,7 +406,7 @@ protected:
 			int height = rect.bottom - rect.top;
 			hWnd = ::CreateWindowEx(0, CLASSNAME, _T(""), WS_POPUP, left, top, width, height, hParent, 0, GetModuleHandle(NULL), NULL);
 			if (hWnd && !doneflag) {
-				::SetWindowLong(hWnd, GWL_USERDATA, (LONG)this);
+				::SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)this);
 				::ShowWindow(hWnd,TRUE);
 				create();
 				// 待ち合わせ完了
