@@ -3,7 +3,7 @@
 #include <process.h>
 #include <commctrl.h>
 #include <vector>
-#include "ncbind/ncbind.hpp"
+#include "ncbind.hpp"
 
 #define CLASSNAME _T("WindowExProgress")
 #define KRKRDISPWINDOWCLASS _T("TScrollBox")
