@@ -406,7 +406,7 @@ protected:
 			int height = rect.bottom - rect.top;
 			hWnd = ::CreateWindowEx(0, CLASSNAME, _T(""), WS_POPUP, left, top, width, height, hParent, 0, GetModuleHandle(NULL), NULL);
 			if (hWnd && !doneflag) {
-				::SetWindowLongPtr(hWnd, GWLP_USERDATA, (tjs_intptr_t)this);
+				::SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)(tjs_intptr_t)this);
 				::ShowWindow(hWnd,TRUE);
 				create();
 				// 待ち合わせ完了
