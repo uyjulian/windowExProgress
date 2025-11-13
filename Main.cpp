@@ -205,7 +205,7 @@ public:
 	progressBarEnable(true), progressBarHandle(0), progressBarStyle(0),
 	progressBarLeft(-1), progressBarTop(-1), progressBarWidth(-1), progressBarHeight(-1),
 	progressBarColor(0xff000000), progressBarBackColor(0xff000000),
-	cancelButtonEnable(true), cancelButtonHandle(0), cancelButtonCaption(L"Cancel"),
+	cancelButtonEnable(true), cancelButtonHandle(0), cancelButtonCaption(TJS_W("Cancel")),
 	cancelButtonLeft(-1), cancelButtonTop(-1), cancelButtonWidth(-1), cancelButtonHeight(-1) {
 		prepare = CreateEvent(NULL, FALSE, FALSE, NULL);
 		if (init) {
@@ -341,8 +341,8 @@ protected:
 		tTJSVariant proc     = (tTVInteger)(tjs_intptr_t)receiver;
 		tTJSVariant userdata = (tTVInteger)(tjs_intptr_t)this;
 		tTJSVariant *p[] = {&mode, &proc, &userdata};
-		if (window->FuncCall(0, L"registerMessageReceiver", NULL, NULL, 4, p, window) != TJS_S_OK) {
-			TVPThrowExceptionMessage(L"can't regist user message receiver");
+		if (window->FuncCall(0, TJS_W("registerMessageReceiver"), NULL, NULL, 4, p, window) != TJS_S_OK) {
+			TVPThrowExceptionMessage(TJS_W("can't regist user message receiver"));
 		}
 	}
 	
@@ -548,7 +548,7 @@ public:
 	 */
 	void startProgress(iTJSDispatch2 *init) {
 		if (progressWindow) {
-			TVPThrowExceptionMessage(L"already running progress");
+			TVPThrowExceptionMessage(TJS_W("already running progress"));
 		}
 		progressWindow = new ProgressWindow(objthis, init);
 	}
@@ -560,7 +560,7 @@ public:
 	 */
 	bool doProgress(int percent) {
 		if (!progressWindow) {
-			TVPThrowExceptionMessage(L"not running progress");
+			TVPThrowExceptionMessage(TJS_W("not running progress"));
 		}
 		return progressWindow->doProgress(percent);
 	}
@@ -570,7 +570,7 @@ public:
 	 */
 	void endProgress() {
 		if (!progressWindow) {
-			TVPThrowExceptionMessage(L"not running progress");
+			TVPThrowExceptionMessage(TJS_W("not running progress"));
 		}
 		delete progressWindow;
 		progressWindow = NULL;
